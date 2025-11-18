@@ -30,6 +30,8 @@ pnpm-debug.log*
 .idea/
 *.iml
 .venv/
+venv/
+__pycache__/
 
 # --- TypeScript ---
 *.tsbuildinfo

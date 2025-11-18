@@ -172,7 +172,7 @@ export class SurPapiDataFetcher {
   analyze(asset: FinnhubAsset, lang: LanguageE, result?: SerpApiResponse) {
     SurPapiDataFetcher.LOGGER.info("Analyzing Results in:", lang.name());
     return of(SurPapiDataFetcher.promptFactory(asset, lang, result)).pipe(
-      switchMap((prompt) => this.googleLLM.generate(prompt))
+      switchMap((prompt) => this.googleLLM.professional(prompt))
     );
   }
 

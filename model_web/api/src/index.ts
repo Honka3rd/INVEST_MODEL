@@ -7,8 +7,6 @@ import { lastValueFrom } from "rxjs";
 import { AssetAllocator } from "./AssetAllocator";
 import { FinnhubAssetResolver } from "./FinnhubAssetResolver";
 import { SurPapiDataFetcher } from "./SurPapiDataFetcher";
-import { isString } from "lodash";
-import { GoogleLLMResolver } from "./GoogleLLMResolver";
 import { PublicOpinionDataResolver } from "./PublicOpinionDataResolver";
 import { LanguageE } from "@shared/LanguageE";
 dotenv.config(); // load .env file
@@ -63,23 +61,6 @@ app.post("/news/google", async (req: Request, res: Response) => {
       )
     );
     return res.json({ data: results, success: true });
-  } catch (error) {
-    console.error("Search error:", error);
-    res.status(500).json({ error: (error as Error).message });
-  }
-});
-
-app.get("/ask/llm", async (req: Request, res: Response) => {
-  const llm = ControllerLookupContainer.get(GoogleLLMResolver);
-  try {
-    const prompt = req.query.prompt;
-    if (isString(prompt)) {
-      const results = await lastValueFrom(llm.generate(prompt));
-      return res.json({ data: results, success: true });
-    }
-    return res
-      .status(400)
-      .json({ error: `Invalid param, type of q is ${typeof prompt}` });
   } catch (error) {
     console.error("Search error:", error);
     res.status(500).json({ error: (error as Error).message });

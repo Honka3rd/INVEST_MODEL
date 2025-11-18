@@ -1,30 +1,49 @@
 import { injectable } from "inversify";
-import { GoogleGenAI } from "@google/genai";
-import { from, map } from "rxjs";
+import { from, map, switchMap } from "rxjs";
+import dotenv from "dotenv";
+import path from "path";
+
+// Load Python service env located outside model_web
+dotenv.config({
+  path: path.resolve(__dirname, "../../../model_llm_service/.env"),
+});
+
+enum GoogleModelE {
+  FLASH = "flash",
+  PRO="professional"
+}
 
 @injectable()
 export class GoogleLLMResolver {
-  private readonly LLM = new GoogleGenAI({
-    apiKey: process.env.GOOGLE_LLM_API,
-  });
+  private readonly baseUrl = `http://${process.env.FLASK_HOST ?? "0.0.0.0"}:${
+    process.env.FLASK_PORT ?? "8000"
+  }`;
 
-  private static readonly PREFIX = "Omit the opening remarks, such as: Okay, I will..., liked expressions, and only respond with the main content. ";
-
-  simple(prompt: string) {
+  resolve(prompt: string, model: GoogleModelE = GoogleModelE.FLASH) {
+    const url = `${this.baseUrl}/${model}`;
     return from(
-      this.LLM.models.generateContent({
-        contents: `${GoogleLLMResolver.PREFIX} ${prompt}`,
-        model: "gemini-2.5-flash",
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt }),
       })
-    ).pipe(map((r) => r.text));
+    ).pipe(
+      map((r) => {
+        if (!r.ok) {
+          throw new Error(`Flash LLM failure ${r.status}`);
+        }
+        return r;
+      }),
+      switchMap((r) => from(r.json())),
+      map((result: { response: string }) => result.response)
+    );
   }
 
-  generate(prompt: string) {
-    return from(
-      this.LLM.models.generateContent({
-        contents: `${GoogleLLMResolver.PREFIX} ${prompt}`,
-        model: "gemini-2.5-pro",
-      })
-    ).pipe(map((r) => r.text));
+  flash(prompt: string) {
+    return this.resolve(prompt, GoogleModelE.FLASH);
+  }
+
+  professional(prompt: string) {
+    return this.resolve(prompt, GoogleModelE.PRO);
   }
 }

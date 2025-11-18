@@ -101,19 +101,19 @@ export class PublicOpinionDataResolver {
 
   neutral(query: FinnhubAsset, lang: LanguageE) {
     return this.googleLLM
-      .generate(PublicOpinionDataResolver.NEUTRAL(query, lang))
+      .professional(PublicOpinionDataResolver.NEUTRAL(query, lang))
       .pipe(map((r) => this.trim(r)));
   }
 
   popular(query: FinnhubAsset, lang: LanguageE) {
     return this.googleLLM
-      .generate(PublicOpinionDataResolver.POPULAR(query, lang))
+      .professional(PublicOpinionDataResolver.POPULAR(query, lang))
       .pipe(map((r) => this.trim(r)));
   }
 
   professional(query: FinnhubAsset, lang: LanguageE) {
     return this.googleLLM
-      .generate(PublicOpinionDataResolver.PROFESSIONAL(query, lang))
+      .professional(PublicOpinionDataResolver.PROFESSIONAL(query, lang))
       .pipe(map((r) => this.trim(r)));
   }
 
