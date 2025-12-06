@@ -117,9 +117,9 @@ SUR_PAPI_API_KEY={https://serpapi.com/manage-api-key}
 
 📸 UI Preview
 
-![Portfolio Allocation](./docs/portfolio.png)
-![QQQ Sentiment](./docs/qqq_sentiment.png)
-![AI Professional Mode](./docs/ai_professional.png)
+![Portfolio Allocation](./docs/portfolio.jpeg)
+![QQQ Sentiment](./docs/qqq_sentiment.jpeg)
+![AI Professional Mode](./docs/ai_professional.jpeg)
 
 ## 🧠 Key Technical Highlights
 - ✅ RxJS Observables for AI streams
