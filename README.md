@@ -85,27 +85,35 @@ python main.py
 
 ```
 ## Flask runs on:
-http://0.0.0.0:9000
+- http://0.0.0.0:9000
 
 ## Start Node API:
+```bash
 cd model_web/api
 npm install
 npm run dev
+```
 
 ## Start React Frontend:
+```bash
 cd model_web/app
 npm install
 npm run dev
+```
 
 ## Python (model_llm_service/.env)
-GOOGLE_LLM_API={ apply at: https://aistudio.google.com/api-keys }
+```bash
+GOOGLE_LLM_API={https://aistudio.google.com/api-keys}
 FLASK_HOST=0.0.0.0
 FLASK_PORT=8000
+```
 
 ## Node (model_web/api/.env)
-FRED_API_KEY={ apply at: https://fred.stlouisfed.org/docs/api/fred/v2/api_key.html }
-FINNHUB_API_KEY={ apply at: https://finnhub.io/dashboard }
-SUR_PAPI_API_KEY={ apply at: https://serpapi.com/manage-api-key }
+```bash
+FRED_API_KEY={https://fred.stlouisfed.org/docs/api/fred/v2/api_key.html}
+FINNHUB_API_KEY={https://finnhub.io/dashboard}
+SUR_PAPI_API_KEY={https://serpapi.com/manage-api-key}
+```
 
 📸 UI Preview
 
@@ -113,18 +121,18 @@ SUR_PAPI_API_KEY={ apply at: https://serpapi.com/manage-api-key }
 ![QQQ Sentiment](./docs/qqq_sentiment.png)
 ![AI Professional Mode](./docs/ai_professional.png)
 
-🧠 Key Technical Highlights
-	•	✅ RxJS Observables for AI streams
-	•	✅ InversifyJS dependency injection
-	•	✅ Flask microservice architecture
-	•	✅ Google Gemini 2.5 Flash / Pro
-	•	✅ ECharts financial visualization
-	•	✅ Multi-language i18n
-	•	✅ Clean LLM bridge (Node ↔ Python)
+## 🧠 Key Technical Highlights
+- ✅ RxJS Observables for AI streams
+- ✅ InversifyJS dependency injection
+- ✅ Flask microservice architecture
+- ✅ Google Gemini 2.5 Flash / Pro
+- ✅ ECharts financial visualization
+- ✅ Multi-language i18n
+- ✅ Clean LLM bridge (Node ↔ Python)
 
 ⚠️ Disclaimer
 
-This project is for:
-	•	Research
-	•	Educational
-	•	Strategy modeling
+## This project is for:
+- Research
+- Educational
+- Strategy modeling
