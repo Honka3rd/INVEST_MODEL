@@ -1,7 +1,8 @@
 import { injectable } from "inversify";
-import { from, map, switchMap } from "rxjs";
+import { from, map, switchMap, tap } from "rxjs";
 import dotenv from "dotenv";
 import path from "path";
+import { DebugLogger, Logger } from "./logger";
 
 // Load Python service env located outside model_web
 dotenv.config({
@@ -15,6 +16,8 @@ enum GoogleModelE {
 
 @injectable()
 export class GoogleLLMResolver {
+  private static readonly LOGGER: Logger =
+      DebugLogger.getLogger(GoogleLLMResolver);
   private readonly baseUrl = `http://${process.env.FLASK_HOST ?? "0.0.0.0"}:${
     process.env.FLASK_PORT ?? "8000"
   }`;
@@ -30,12 +33,13 @@ export class GoogleLLMResolver {
     ).pipe(
       map((r) => {
         if (!r.ok) {
-          throw new Error(`Flash LLM failure ${r.status}`);
+          throw new Error(`Gemini LLM failure ${r.status}`);
         }
         return r;
       }),
       switchMap((r) => from(r.json())),
-      map((result: { response: string }) => result.response)
+      tap((json) => GoogleLLMResolver.LOGGER.info("LLM Response:", json)),
+      map((result: { text: string }) => result.text)
     );
   }
 
